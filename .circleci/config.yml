@@ -1,0 +1,77 @@
+version: 2
+
+docker_image: &docker_image
+  working_directory: ~/styled-tidy
+  docker:
+    - image: circleci/node:12-browsers
+
+cache_key: &cache_key yarn-{{ .Branch }}-{{ checksum "yarn.lock" }}
+cache_keys: &cache_keys
+  - *cache_key
+  - yarn-{{ .Branch }}-
+  - yarn-
+cache_paths: &cache_paths
+  - node_modules
+  - ~/.cache/yarn
+
+yarn_install: &yarn_install
+  run:
+    name: Install yarn packages
+    command: |
+      echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> .npmrc
+      yarn install --non-interactive --cache-folder ~/.cache/yarn
+
+jobs:
+  test:
+    <<: *docker_image
+    steps:
+      - checkout
+      - restore_cache:
+          keys: *cache_keys
+      - *yarn_install
+      - save_cache:
+          key: *cache_key
+          paths: *cache_paths
+      - run:
+          name: Audit modules
+          command: |
+            sudo yarn global add audit-ci --no-lockfile
+            audit-ci
+      - run:
+          name: Run linters
+          command: yarn lint
+      - run:
+          name: Run Tests and Coverage
+          command: yarn test
+      - run:
+          name: Collect Codecov report
+          command: bash <(curl -s https://codecov.io/bash)
+
+  publish:
+    <<: *docker_image
+    steps:
+      - checkout
+      - restore_cache:
+          keys: *cache_keys
+      - *yarn_install
+      - run:
+          name: Release new version
+          command: |
+            yarn build
+            cp README.md dist/README.md
+            cp package.json dist/package.json
+            cp src/index.d.ts dist/index.d.ts
+            npx semantic-release
+
+workflows:
+  version: 2
+  pipeline:
+    jobs:
+      - test
+      - publish:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master

@@ -1,0 +1,123 @@
+{
+  "name": "styled-tidy",
+  "version": "0.0.0-development",
+  "description": "A set of utilties for writing clean styled-components syntax.",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "lint": "tslint -c config/tslint.json -p config/tsconfig.json && eslint --print-config config/.eslintrc.js | eslint-config-prettier-check",
+    "test": "jest -c config/jest.js --coverage",
+    "build": "rm -rf ./dist && webpack -p --config config/webpack.js --colors --display-error-details",
+    "precommit": "tslint -c config/tslint.json -p config/tsconfig.json && eslint --print-config config/.eslintrc.js | eslint-config-prettier-check && lint-staged"
+  },
+  "repository": "git@github.com:dw2/styled-tidy.git",
+  "author": "Douglas Waltman II <doug@dougwaltman.com>",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "styled-components",
+    "utlities"
+  ],
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": "config/commitizen.js"
+    }
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "tag": "latest",
+    "pkgRoot": "dist",
+    "access": "public"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,json}": [
+      "prettier --write",
+      "git add"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/react",
+      "@babel/typescript",
+      [
+        "@babel/env",
+        {
+          "modules": false
+        }
+      ]
+    ],
+    "plugins": [
+      "react-hot-loader/babel",
+      "@babel/plugin-proposal-object-rest-spread",
+      "@babel/plugin-proposal-class-properties",
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": true
+        }
+      ]
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.0",
+    "@babel/plugin-proposal-decorators": "^7.3.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.3.2",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-typescript": "^7.1.0",
+    "@semantic-release/commit-analyzer": "^6.3.0",
+    "@semantic-release/github": "^5.4.4",
+    "@semantic-release/npm": "^5.1.15",
+    "@semantic-release/release-notes-generator": "^7.3.0",
+    "@testing-library/react": "^9.1.4",
+    "@types/jest": "^24.0.5",
+    "@types/react": "~16.9.0",
+    "@types/react-dom": "~16.9.0",
+    "@types/styled-components": "^4.1.19",
+    "@types/testing-library__react": "^9.1.1",
+    "@types/webpack-env": "^1.13.7",
+    "babel-eslint": "^10.0.3",
+    "babel-jest": "^24.0.0",
+    "babel-loader": "^8.0.5",
+    "cz-customizable": "^6.2.0",
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.3.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.14.3",
+    "husky": "^3.0.5",
+    "jest": "^24.0.0",
+    "jest-cli": "^24.0.0",
+    "jest-environment-jsdom": "^24.0.0",
+    "jest-environment-jsdom-global": "^1.1.0",
+    "jest-styled-components": "^6.3.3",
+    "lint-staged": "^8.1.4",
+    "prettier": "^1.18.2",
+    "react": "~16.9.0",
+    "react-dom": "~16.9.0",
+    "react-hot-loader": "^4.6.5",
+    "semantic-release": "^15.13.24",
+    "source-map-loader": "^0.2.4",
+    "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
+    "tslint-react": "^4.1.0",
+    "typescript": "^3.3.3",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.2.3"
+  },
+  "peerDependencies": {
+    "react": "~16.9.0",
+    "react-dom": "~16.9.0",
+    "styled-components": "~4.4.0"
+  },
+  "dependencies": {
+    "styled-components": "~4.4.0"
+  }
+}
