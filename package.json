@@ -1,7 +1,7 @@
 {
   "name": "styled-tidy",
   "version": "0.0.0-development",
-  "description": "A set of utilties for writing clean styled-components syntax.",
+  "description": "A set of utilities for writing clean styled-components syntax.",
   "main": "index.js",
   "types": "index.d.ts",
   "scripts": {
