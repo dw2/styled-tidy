@@ -1,5 +1,5 @@
 # styled-tidy
-Tidy is a lightweight set of utilties for writing clean styled-components syntax.
+Tidy is a lightweight set of utilities for writing clean styled-components syntax.
 
 ![](https://badgen.net/github/release/dw2/styled-tidy) [![CircleCI](https://circleci.com/gh/dw2/styled-tidy.svg?style=svg)](https://circleci.com/gh/dw2/styled-tidy) ![](https://badgen.net/badgesize/gzip/https://unpkg.com/styled-tidy) ![Codecov](https://codecov.io/gh/dw2/styled-tidy/branch/master/graph/badge.svg)
 
@@ -42,7 +42,7 @@ const Test = styled.div`
 const Example = () => <Test size="small">test</Test>;
 ```
 
-### isAny
+### isntAny
 ```
 const Test = styled.div`
   ${isntAny('size', ['small', 'medium'])`color: green`};

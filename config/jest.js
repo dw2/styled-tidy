@@ -1,5 +1,6 @@
 module.exports = {
   collectCoverageFrom: [
+    "src/helpers.tsx",
     "src/matchers.tsx",
     "src/media.tsx",
     "src/mixins.tsx",
