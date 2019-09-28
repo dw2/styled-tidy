@@ -2,19 +2,25 @@
 
 import { css } from "styled-components";
 
-export const is = (prop: string) => (...args: [any]) => (props: object) =>
-  props[prop] ? css(...args) : "";
-
-export const isnt = (prop: string) => (...args: [any]) => (props: object) =>
-  !props[prop] ? css(...args) : "";
-
-export const isAny = (prop: string, matches: any[]) => (...args: [any]) => (
+export const is = (prop: string) => (str: any, ...args: any[]) => (
   props: object
-) => (matches.includes(props[prop]) ? css(...args) : "");
+) => (props[prop] ? css(str, ...args) : "");
 
-export const isntAny = (prop: string, matches: any[]) => (...args: [any]) => (
+export const isnt = (prop: string) => (str: any, ...args: any[]) => (
   props: object
-) => (!matches.includes(props[prop]) ? css(...args) : "");
+) => (!props[prop] ? css(str, ...args) : "");
+
+export const isAny = (prop: string, matches: any[]) => (
+  str: any,
+  ...args: any[]
+) => (props: object) =>
+  matches.includes(props[prop]) ? css(str, ...args) : "";
+
+export const isntAny = (prop: string, matches: any[]) => (
+  str: any,
+  ...args: any[]
+) => (props: object) =>
+  !matches.includes(props[prop]) ? css(str, ...args) : "";
 
 export const value = (prop: string) => (props: object) => props[prop];
 
@@ -24,10 +30,12 @@ export const swap = (prop: string, yup: any, nope: any) => (props: object) =>
 export const choose = (prop: string, map: object) => (props: object) =>
   map[props[prop]];
 
-export const over = (prop: string, amount: number) => (...args: [any]) => (
-  props: object
-) => (props[prop] > amount ? css(...args) : "");
+export const over = (prop: string, amount: number) => (
+  str: any,
+  ...args: any[]
+) => (props: object) => (props[prop] > amount ? css(str, ...args) : "");
 
-export const under = (prop: string, amount: number) => (...args: [any]) => (
-  props: object
-) => (props[prop] < amount ? css(...args) : "");
+export const under = (prop: string, amount: number) => (
+  str: any,
+  ...args: any[]
+) => (props: object) => (props[prop] < amount ? css(str, ...args) : "");
