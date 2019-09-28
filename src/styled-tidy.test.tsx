@@ -20,7 +20,8 @@ import {
   maxHeight,
   rem,
   opacify,
-  transparentize
+  transparentize,
+  flex
 } from "./styled-tidy";
 
 declare interface TestProps {
@@ -35,7 +36,7 @@ export const setup = (node: any) =>
 describe("styed-tidy", () => {
   afterEach(cleanup);
 
-  describe("'is' function", () => {
+  describe("'is' matcher", () => {
     const Test = styled.div<TestProps>`
       ${is("enabled")`color: green`};
     `;
@@ -51,7 +52,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'isnt' function", () => {
+  describe("'isnt' matcher", () => {
     const Test = styled.div<TestProps>`
       ${isnt("enabled")`color: red`};
     `;
@@ -67,7 +68,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'isAny' function", () => {
+  describe("'isAny' matcher", () => {
     const Test = styled.div<TestProps>`
       ${isAny("size", ["small", "medium"])`color: green`};
     `;
@@ -89,7 +90,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'isntAny' function", () => {
+  describe("'isntAny' matcher", () => {
     const Test = styled.div<TestProps>`
       ${isntAny("size", ["small", "medium"])`color: green`};
     `;
@@ -111,7 +112,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'value' function", () => {
+  describe("'value' matcher", () => {
     it("should render the given value", () => {
       const Test = styled.div<TestProps>`
         width: ${value("size")};
@@ -121,7 +122,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'swap' function", () => {
+  describe("'swap' matcher", () => {
     const Test = styled.div<TestProps>`
       color: ${swap("enabled", "green", "red")};
     `;
@@ -137,7 +138,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'choose' function", () => {
+  describe("'choose' matcher", () => {
     it("should render the matching option for the given prop", () => {
       const sizes = {
         small: "10px",
@@ -157,7 +158,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'over' function", () => {
+  describe("'over' matcher", () => {
     const Test = styled.div<TestProps>`
       ${over("amount", 10)`color: green`};
     `;
@@ -173,7 +174,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'under' function", () => {
+  describe("'under' matcher", () => {
     const Test = styled.div<TestProps>`
       ${under("amount", 10)`color: green`};
     `;
@@ -189,7 +190,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'minWidth' function", () => {
+  describe("'minWidth' media query", () => {
     it("renders a min-width media query with the given CSS", () => {
       const Test = styled.div<TestProps>`
         ${minWidth(420)`display: flex`};
@@ -202,7 +203,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'maxWidth' function", () => {
+  describe("'maxWidth' media query", () => {
     it("renders a max-width media query with the given CSS", () => {
       const Test = styled.div<TestProps>`
         ${maxWidth(420)`display: flex`};
@@ -215,7 +216,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'minHeight' function", () => {
+  describe("'minHeight' media query", () => {
     it("renders a min-height media query with the given CSS", () => {
       const Test = styled.div<TestProps>`
         ${minHeight(420)`display: flex`};
@@ -228,7 +229,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'maxHeight' function", () => {
+  describe("'maxHeight' media query", () => {
     it("renders a max-height media query with the given CSS", () => {
       const Test = styled.div<TestProps>`
         ${maxHeight(420)`display: flex`};
@@ -241,7 +242,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'rem' function", () => {
+  describe("'rem' mixin", () => {
     it("calculates rem values", () => {
       expect(rem(16)).toBe("1rem");
       expect(rem(4)).toBe("0.25rem");
@@ -250,7 +251,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'opacify' function", () => {
+  describe("'opacify' mixin", () => {
     it("correctly adjusts an rgb value", () => {
       expect(opacify("rgb(255,255,255)", 0.2)).toBe("rgba(255,255,255,1)");
     });
@@ -266,7 +267,7 @@ describe("styed-tidy", () => {
     });
   });
 
-  describe("'transparentize' function", () => {
+  describe("'transparentize' mixin", () => {
     it("correctly adjusts an rgb value", () => {
       expect(transparentize("rgb(255,255,255)", 0.2)).toBe(
         "rgba(255,255,255,0.8)"
@@ -281,6 +282,21 @@ describe("styed-tidy", () => {
 
     it("correctly adjusts an hex value", () => {
       expect(transparentize("#FFFFFF", 0.2)).toBe("rgba(255,255,255,0.8)");
+    });
+  });
+
+  describe("'flex' mixin", () => {
+    it("sets the given flexbox CSS attributes", () => {
+      const Test = styled.div<TestProps>`
+        ${flex("column-reverse", "center", "flex-end")};
+      `;
+      const { getByText } = setup(<Test>test</Test>);
+      const test = getByText("test");
+
+      expect(test).toHaveStyleRule("display", "flex");
+      expect(test).toHaveStyleRule("flex-direction", "column-reverse");
+      expect(test).toHaveStyleRule("align-items", "center");
+      expect(test).toHaveStyleRule("justify-content", "flex-end");
     });
   });
 });
