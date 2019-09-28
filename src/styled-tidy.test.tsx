@@ -52,6 +52,16 @@ describe("styed-tidy", () => {
     });
   });
 
+  describe("'is' matcher with a mixin", () => {
+    it("should render the given CSS when matched", () => {
+      const Test = styled.div<TestProps>`
+        ${is("enabled")`height: ${rem(16)}`};
+      `;
+      const { getByText } = setup(<Test enabled>test</Test>);
+      expect(getByText("test")).toHaveStyleRule("height", "1rem");
+    });
+  });
+
   describe("'isnt' matcher", () => {
     const Test = styled.div<TestProps>`
       ${isnt("enabled")`color: red`};

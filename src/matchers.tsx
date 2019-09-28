@@ -3,18 +3,36 @@
 import { css } from "styled-components";
 
 export const is = (prop: string) => (...args: any) => (props: object) =>
-  props[prop] ? css(args) : "";
+  props[prop]
+    ? css`
+        ${args}
+      `
+    : "";
 
 export const isnt = (prop: string) => (...args: any) => (props: object) =>
-  !props[prop] ? css(args) : "";
+  !props[prop]
+    ? css`
+        ${args}
+      `
+    : "";
 
 export const isAny = (prop: string, matches: any[]) => (...args: any) => (
   props: object
-) => (matches.includes(props[prop]) ? css(args) : "");
+) =>
+  matches.includes(props[prop])
+    ? css`
+        ${args}
+      `
+    : "";
 
 export const isntAny = (prop: string, matches: any[]) => (...args: any) => (
   props: object
-) => (!matches.includes(props[prop]) ? css(args) : "");
+) =>
+  !matches.includes(props[prop])
+    ? css`
+        ${args}
+      `
+    : "";
 
 export const value = (prop: string) => (props: object) => props[prop];
 
@@ -26,8 +44,18 @@ export const choose = (prop: string, map: object) => (props: object) =>
 
 export const over = (prop: string, amount: number) => (...args: any) => (
   props: object
-) => (props[prop] > amount ? css(args) : "");
+) =>
+  props[prop] > amount
+    ? css`
+        ${args}
+      `
+    : "";
 
 export const under = (prop: string, amount: number) => (...args: any) => (
   props: object
-) => (props[prop] < amount ? css(args) : "");
+) =>
+  props[prop] < amount
+    ? css`
+        ${args}
+      `
+    : "";
