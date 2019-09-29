@@ -21,7 +21,8 @@ import {
   rem,
   opacify,
   transparentize,
-  flex
+  flex,
+  grid
 } from "./styled-tidy";
 
 declare interface TestProps {
@@ -307,6 +308,30 @@ describe("styed-tidy", () => {
       expect(test).toHaveStyleRule("flex-direction", "column-reverse");
       expect(test).toHaveStyleRule("align-items", "center");
       expect(test).toHaveStyleRule("justify-content", "flex-end");
+    });
+  });
+
+  describe("'grid' mixin", () => {
+    it("sets the given grid CSS attributes", () => {
+      const Test = styled.div<TestProps>`
+        ${grid(4, 16, 24)};
+      `;
+      const { getByText } = setup(<Test>test</Test>);
+      const test = getByText("test");
+
+      expect(test).toHaveStyleRule("display", "grid");
+      expect(test).toHaveStyleRule("grid-template-columns", "repeat(4,1fr)");
+      expect(test).toHaveStyleRule("grid-column-gap", "1rem");
+      expect(test).toHaveStyleRule("grid-row-gap", "1.5rem");
+    });
+
+    it("sets the row gap equal to the column gap when row gap is not given", () => {
+      const Test = styled.div<TestProps>`
+        ${grid(2, 16)};
+      `;
+      const { getByText } = setup(<Test>test</Test>);
+
+      expect(getByText("test")).toHaveStyleRule("grid-row-gap", "1rem");
     });
   });
 });

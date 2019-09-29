@@ -24,3 +24,11 @@ export const flex = (direction: string, align: string, justify: string) => css`
   align-items: ${align};
   justify-content: ${justify};
 `;
+
+export const grid = (cols: number, colGap: number, rowGap?: number) =>
+  css`
+    display: grid;
+    grid-template-columns: repeat(${cols}, 1fr);
+    grid-column-gap: ${rem(colGap)};
+    grid-row-gap: ${rem(typeof rowGap === "number" ? rowGap : colGap)};
+  `;
