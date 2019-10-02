@@ -2,13 +2,21 @@
 
 import { css } from "styled-components";
 
-export const is = (prop: string) => (str: any, ...args: any[]) => (
-  props: object
-) => (props[prop] ? css(str, ...args) : "");
+export const is = (prop: string, value: any = null) => (
+  str: any,
+  ...args: any[]
+) => (props: object) => {
+  const match = value === null ? !!props[prop] : props[prop] === value;
+  return match ? css(str, ...args) : "";
+};
 
-export const isnt = (prop: string) => (str: any, ...args: any[]) => (
-  props: object
-) => (!props[prop] ? css(str, ...args) : "");
+export const isnt = (prop: string, value: any = null) => (
+  str: any,
+  ...args: any[]
+) => (props: object) => {
+  const match = value === null ? !props[prop] : props[prop] !== value;
+  return match ? css(str, ...args) : "";
+};
 
 export const isAny = (prop: string, matches: any[]) => (
   str: any,

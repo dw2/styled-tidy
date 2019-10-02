@@ -39,23 +39,39 @@ describe("styed-tidy", () => {
   afterEach(cleanup);
 
   describe("'is' matcher", () => {
-    const Test = styled.div<TestProps>`
-      ${is("enabled")`color: green`};
-    `;
-
     it("should render the given CSS when matched", () => {
+      const Test = styled.div<TestProps>`
+        ${is("enabled")`color: green`};
+      `;
       const { getByText } = setup(<Test enabled>test</Test>);
       expect(getByText("test")).toHaveStyleRule("color", "green");
     });
 
+    it("should render the given CSS when given value is matched", () => {
+      const Test = styled.div<TestProps>`
+        ${is("size", "big")`color: green`};
+      `;
+      const { getByText } = setup(<Test size="big">test</Test>);
+      expect(getByText("test")).toHaveStyleRule("color", "green");
+    });
+
     it("should not render the given CSS when not matched", () => {
+      const Test = styled.div<TestProps>`
+        ${is("enabled")`color: green`};
+      `;
       const { getByText } = setup(<Test>test</Test>);
       expect(getByText("test")).not.toHaveStyleRule("color");
     });
-  });
 
-  describe("'is' matcher with a mixin", () => {
-    it("should render the given CSS when matched", () => {
+    it("should not render the given CSS when given value is not matched", () => {
+      const Test = styled.div<TestProps>`
+        ${is("size", "big")`color: green`};
+      `;
+      const { getByText } = setup(<Test size="small">test</Test>);
+      expect(getByText("test")).not.toHaveStyleRule("color");
+    });
+
+    it("should render the given CSS when matched when a mixin is included", () => {
       const Test = styled.div<TestProps>`
         ${is("enabled")`height: ${rem(16)}`};
       `;
@@ -65,17 +81,35 @@ describe("styed-tidy", () => {
   });
 
   describe("'isnt' matcher", () => {
-    const Test = styled.div<TestProps>`
-      ${isnt("enabled")`color: red`};
-    `;
-
     it("should not render the given CSS when matched", () => {
+      const Test = styled.div<TestProps>`
+        ${isnt("enabled")`color: red`};
+      `;
       const { getByText } = setup(<Test enabled>test</Test>);
       expect(getByText("test")).not.toHaveStyleRule("color");
     });
 
     it("should render the given CSS when not matched", () => {
+      const Test = styled.div<TestProps>`
+        ${isnt("enabled")`color: red`};
+      `;
       const { getByText } = setup(<Test>test</Test>);
+      expect(getByText("test")).toHaveStyleRule("color", "red");
+    });
+
+    it("should not render the given CSS when given value is matched", () => {
+      const Test = styled.div<TestProps>`
+        ${isnt("size", "small")`color: red`};
+      `;
+      const { getByText } = setup(<Test size="small">test</Test>);
+      expect(getByText("test")).not.toHaveStyleRule("color");
+    });
+
+    it("should render the given CSS when given value is not matched", () => {
+      const Test = styled.div<TestProps>`
+        ${isnt("size", "small")`color: red`};
+      `;
+      const { getByText } = setup(<Test size="big">test</Test>);
       expect(getByText("test")).toHaveStyleRule("color", "red");
     });
   });
