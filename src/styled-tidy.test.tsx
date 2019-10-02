@@ -22,7 +22,8 @@ import {
   opacify,
   transparentize,
   flex,
-  grid
+  grid,
+  position
 } from "./styled-tidy";
 
 declare interface TestProps {
@@ -332,6 +333,64 @@ describe("styed-tidy", () => {
       const { getByText } = setup(<Test>test</Test>);
 
       expect(getByText("test")).toHaveStyleRule("grid-row-gap", "1rem");
+    });
+  });
+
+  describe("'position' mixin", () => {
+    it("sets the given position CSS attributes", () => {
+      const Test = styled.div<TestProps>`
+        ${position("fixed", "1rem", "2rem", "3rem", "4rem")};
+      `;
+      const { getByText } = setup(<Test>test</Test>);
+      const test = getByText("test");
+
+      expect(test).toHaveStyleRule("position", "fixed");
+      expect(test).toHaveStyleRule("top", "1rem");
+      expect(test).toHaveStyleRule("right", "2rem");
+      expect(test).toHaveStyleRule("bottom", "3rem");
+      expect(test).toHaveStyleRule("left", "4rem");
+    });
+
+    it("sets the given position CSS attributes with single param shorthand", () => {
+      const Test = styled.div<TestProps>`
+        ${position("absolute", "1rem")};
+      `;
+      const { getByText } = setup(<Test>test</Test>);
+      const test = getByText("test");
+
+      expect(test).toHaveStyleRule("position", "absolute");
+      expect(test).toHaveStyleRule("top", "1rem");
+      expect(test).toHaveStyleRule("right", "1rem");
+      expect(test).toHaveStyleRule("bottom", "1rem");
+      expect(test).toHaveStyleRule("left", "1rem");
+    });
+
+    it("sets the given position CSS attributes with double param shorthand", () => {
+      const Test = styled.div<TestProps>`
+        ${position("absolute", "1rem", "2rem")};
+      `;
+      const { getByText } = setup(<Test>test</Test>);
+      const test = getByText("test");
+
+      expect(test).toHaveStyleRule("position", "absolute");
+      expect(test).toHaveStyleRule("top", "1rem");
+      expect(test).toHaveStyleRule("right", "2rem");
+      expect(test).toHaveStyleRule("bottom", "1rem");
+      expect(test).toHaveStyleRule("left", "2rem");
+    });
+
+    it("sets the given position CSS attributes with triple param shorthand", () => {
+      const Test = styled.div<TestProps>`
+        ${position("absolute", "1rem", "2rem", "3rem")};
+      `;
+      const { getByText } = setup(<Test>test</Test>);
+      const test = getByText("test");
+
+      expect(test).toHaveStyleRule("position", "absolute");
+      expect(test).toHaveStyleRule("top", "1rem");
+      expect(test).toHaveStyleRule("right", "2rem");
+      expect(test).toHaveStyleRule("bottom", "3rem");
+      expect(test).toHaveStyleRule("left", "2rem");
     });
   });
 });

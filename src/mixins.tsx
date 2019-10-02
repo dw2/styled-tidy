@@ -32,3 +32,17 @@ export const grid = (cols: number, colGap: number, rowGap?: number) =>
     grid-column-gap: ${rem(colGap)};
     grid-row-gap: ${rem(typeof rowGap === "number" ? rowGap : colGap)};
   `;
+
+export const position = (
+  value: string,
+  top: string,
+  right?: string,
+  bottom?: string,
+  left?: string
+) => css`
+  position: ${value};
+  top: ${top};
+  right: ${right || top};
+  bottom: ${bottom || top};
+  left: ${left || right || top};
+`;

@@ -10,4 +10,4 @@ export {
   under
 } from "./matchers";
 export { minWidth, maxWidth, minHeight, maxHeight } from "./media";
-export { rem, opacify, transparentize, flex, grid } from "./mixins";
+export { rem, opacify, transparentize, flex, grid, position } from "./mixins";
