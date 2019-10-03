@@ -14,6 +14,7 @@ import {
   choose,
   over,
   under,
+  between,
   minWidth,
   maxWidth,
   minHeight,
@@ -232,6 +233,22 @@ describe("styed-tidy", () => {
 
     it("should  not render the given CSS when the prop is greater than the given number", () => {
       const { getByText } = setup(<Test amount={10}>test</Test>);
+      expect(getByText("test")).not.toHaveStyleRule("color");
+    });
+  });
+
+  describe("'between' matcher", () => {
+    const Test = styled.div<TestProps>`
+      ${between("amount", 0, 1)`color: green`};
+    `;
+
+    it("should render the given CSS when the prop is between the given range", () => {
+      const { getByText } = setup(<Test amount={0.5}>test</Test>);
+      expect(getByText("test")).toHaveStyleRule("color", "green");
+    });
+
+    it("should not render the given CSS when the prop is outside the given range", () => {
+      const { getByText } = setup(<Test amount={0}>test</Test>);
       expect(getByText("test")).not.toHaveStyleRule("color");
     });
   });

@@ -7,7 +7,8 @@ export {
   swap,
   choose,
   over,
-  under
+  under,
+  between
 } from "./matchers";
 export { minWidth, maxWidth, minHeight, maxHeight } from "./media";
 export { rem, opacify, transparentize, flex, grid, position } from "./mixins";

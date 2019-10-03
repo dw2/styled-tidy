@@ -47,3 +47,11 @@ export const under = (prop: string, amount: number) => (
   str: any,
   ...args: any[]
 ) => (props: object) => (props[prop] < amount ? css(str, ...args) : "");
+
+export const between = (prop: string, from: number, to: number) => (
+  str: any,
+  ...args: any[]
+) => (props: object) => {
+  const value = props[prop];
+  return value > from && value < to ? css(str, ...args) : "";
+};
