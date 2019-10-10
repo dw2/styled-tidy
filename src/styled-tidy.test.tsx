@@ -311,6 +311,7 @@ describe("styed-tidy", () => {
       expect(rem(4)).toBe("0.25rem");
       expect(rem(16, 8)).toBe("2rem");
       expect(rem(16, 32)).toBe("0.5rem");
+      expect(rem(0)).toBe("0");
     });
   });
 
@@ -364,7 +365,7 @@ describe("styed-tidy", () => {
   });
 
   describe("'grid' mixin", () => {
-    it("sets the given grid CSS attributes", () => {
+    it("sets the given grid CSS attributes from numbers", () => {
       const Test = styled.div<TestProps>`
         ${grid(4, 16, 24)};
       `;
@@ -375,6 +376,17 @@ describe("styed-tidy", () => {
       expect(test).toHaveStyleRule("grid-template-columns", "repeat(4,1fr)");
       expect(test).toHaveStyleRule("grid-column-gap", "1rem");
       expect(test).toHaveStyleRule("grid-row-gap", "1.5rem");
+    });
+
+    it("sets the given grid CSS attributes from strings", () => {
+      const Test = styled.div<TestProps>`
+        ${grid(4, "2rem", "3rem")};
+      `;
+      const { getByText } = setup(<Test>test</Test>);
+      const test = getByText("test");
+
+      expect(test).toHaveStyleRule("grid-column-gap", "2rem");
+      expect(test).toHaveStyleRule("grid-row-gap", "3rem");
     });
 
     it("sets the row gap equal to the column gap when row gap is not given", () => {
@@ -389,6 +401,20 @@ describe("styed-tidy", () => {
 
   describe("'position' mixin", () => {
     it("sets the given position CSS attributes", () => {
+      const Test = styled.div<TestProps>`
+        ${position("fixed", 0, 16, 32, 48)};
+      `;
+      const { getByText } = setup(<Test>test</Test>);
+      const test = getByText("test");
+
+      expect(test).toHaveStyleRule("position", "fixed");
+      expect(test).toHaveStyleRule("top", "0");
+      expect(test).toHaveStyleRule("right", "1rem");
+      expect(test).toHaveStyleRule("bottom", "2rem");
+      expect(test).toHaveStyleRule("left", "3rem");
+    });
+
+    it("sets the given position CSS attributes from strings", () => {
       const Test = styled.div<TestProps>`
         ${position("fixed", "1rem", "2rem", "3rem", "4rem")};
       `;
