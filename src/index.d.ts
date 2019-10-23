@@ -52,12 +52,16 @@ declare module "styled-tidy" {
     align: string,
     justify: string
   ): string;
-  export function grid(cols: string, colGap: string, rowGap?: string): string;
+  export function grid(
+    cols: string,
+    colGap: string | number,
+    rowGap?: string | number
+  ): string;
   export function position(
     value: string,
-    top: string,
-    right?: string,
-    bottom?: string,
-    left?: string
+    top: string | number,
+    right?: string | number,
+    bottom?: string | number,
+    left?: string | number
   ): string;
 }
