@@ -53,7 +53,7 @@ declare module "styled-tidy" {
     justify: string
   ): string;
   export function grid(
-    cols: string,
+    cols: number,
     colGap: string | number,
     rowGap?: string | number
   ): string;
